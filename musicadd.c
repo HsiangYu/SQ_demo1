@@ -42,7 +42,7 @@ static void fill_boxes (HWND hWnd, const char* path)
 
         DEB("-fill_boxes: path=%s\n ",path);
 
-	SendDlgItemMessage(hWnd, IDC_FUN_MPLAYER_MUSICADD_LISTBOX_DIR, LB_RESETCONTENT, 0, (LPARAM)0);
+	SendDlgItemMessage(hWnd, IDC_FUN_MPLAYER_MUSICADD_LISTBOX_DIR,  LB_RESETCONTENT, 0, (LPARAM)0);
 	SendDlgItemMessage(hWnd, IDC_FUN_MPLAYER_MUSICADD_LISTBOX_FILE, LB_RESETCONTENT, 0, (LPARAM)0);
 	SetWindowText(GetDlgItem(hWnd, IDC_FUN_MPLAYER_MUSICADD_STATIC_PATH), path);
 
@@ -59,9 +59,9 @@ static void fill_boxes (HWND hWnd, const char* path)
 		if (stat(fullpath, &ftype) < 0)	{
 			continue;
 		}
-
+		DEB("-name=%s\n ",dir_ent->d_name);	
 		if (S_ISDIR(ftype.st_mode)) {
-			SendDlgItemMessage(hWnd, IDC_FUN_MPLAYER_MUSICADD_LISTBOX_DIR, LB_ADDSTRING, 0, (LPARAM)dir_ent->d_name);
+			SendDlgItemMessage(hWnd, IDC_FUN_MPLAYER_MUSICADD_LISTBOX_DIR,  LB_ADDSTRING, 0, (LPARAM)dir_ent->d_name);
 		}	else if (S_ISREG(ftype.st_mode)) {
 			SendDlgItemMessage(hWnd, IDC_FUN_MPLAYER_MUSICADD_LISTBOX_FILE, LB_ADDSTRING, 0, (LPARAM)dir_ent->d_name);
 		}
@@ -136,7 +136,7 @@ int MusicFileSave(HWND hWnd)
 
 	index = SendMessage(GetDlgItem(hWnd, IDC_FUN_MPLAYER_MUSICADD_LISTBOX_FILE), LB_GETCURSEL, 0, 0);
 	SendMessage(GetDlgItem(hWnd, IDC_FUN_MPLAYER_MUSICADD_LISTBOX_FILE), LB_GETTEXT, index, (LPARAM)name);
-	GetWindowText(GetDlgItem(hWnd, IDC_FUN_MPLAYER_MUSICADD_SLEDIT_NAME), list.name, sizeof(list.name)+4);
+	GetWindowText(GetDlgItem(hWnd, IDC_FUN_MPLAYER_MUSICADD_SLEDIT_NAME),   list.name,   sizeof(list.name)+4);
 	GetWindowText(GetDlgItem(hWnd, IDC_FUN_MPLAYER_MUSICADD_SLEDIT_SINGER), list.singer, sizeof(list.singer));
 
         DEB("--cwd=%s\n ",cwd);
@@ -247,7 +247,7 @@ static int Desktop(HWND hWnd, int message, WPARAM wParam, LPARAM lParam)
 			     hWnd,
 			     0);
 
-		SetNotificationCallback(GetDlgItem(hWnd, IDC_FUN_MPLAYER_MUSICADD_LISTBOX_DIR), dir_notif_proc);
+		SetNotificationCallback(GetDlgItem(hWnd, IDC_FUN_MPLAYER_MUSICADD_LISTBOX_DIR),  dir_notif_proc);
 		SetNotificationCallback(GetDlgItem(hWnd, IDC_FUN_MPLAYER_MUSICADD_LISTBOX_FILE), file_notif_proc);
 		//fill_boxes(hWnd, getcwd(cwd, MAX_PATH));
 		fill_boxes(hWnd, MSG_TARGET_DIR);		
@@ -261,20 +261,7 @@ static int Desktop(HWND hWnd, int message, WPARAM wParam, LPARAM lParam)
 		switch (wParam)	{
 		case IDC_FUN_MPLAYER_MUSICADD_BUTTON_CHOOSE:
                         DEB("---IDC_FUN_MPLAYER_MUSICADD_BUTTON_CHOOSE\n ");		
-			MusicFileSave(hWnd);
-		
-
-	
-#if 0//_DEBUG
-        pWin2 = (PMAINWIN2)fWnd;
-        printf ("musicadd\n");        
-        printf ("pWin=0x%p \n",pWin2);
-        printf ("fWnd=0x%p \n",fWnd);        
-        printf ("pWin->WinType=0x%x\n",pWin2->DataType);        
-        printf ("pWin->WinType=0x%x\n",pWin2->WinType);
-#endif 
-        
-                                	
+			MusicFileSave(hWnd);	                                       	
 			DEB("---SendNotifyMessage fWnd=%d\n ",fWnd);
 			SendNotifyMessage(fWnd, MSG_MUSIC_ADD, 0, 0L);
 			DEB("---SendNotifyMessage end\n ");			
@@ -316,13 +303,13 @@ int musicadd(HWND Wnd)
 	fWnd = Wnd;
 
     
-#if 1//_DEBUG
+#if _DEBUG
         pWin2 = (PMAINWIN2)Wnd;
-        printf ("musicadd\n");        
-        printf ("pWin=0x%p \n",pWin2);
-        printf ("fWnd=0x%p \n",fWnd);        
-        printf ("pWin->WinType=0x%x\n",pWin2->DataType);        
-        printf ("pWin->WinType=0x%x\n",pWin2->WinType);
+        DEB ("musicadd\n");        
+        DEB ("pWin=0x%p \n",pWin2);
+        DEB ("fWnd=0x%p \n",fWnd);        
+        DEB ("pWin->WinType=0x%x\n",pWin2->DataType);        
+        DEB ("pWin->WinType=0x%x\n",pWin2->WinType);
 #endif 
         
 

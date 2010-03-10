@@ -19,7 +19,8 @@ static void fill_box(HWND hWnd)
 	struct musiclist list[MAX_FILE_LIST];
 
         DEB("-fill_box \n ");
-
+	SendDlgItemMessage(hWnd, IDC_FUN_MPLAYER_LISTBOX_NAME,  LB_RESETCONTENT, 0, (LPARAM)0);
+	//SendMessage(GetDlgItem(hWnd, IDC_FUN_MPLAYER_LISTBOX_NAME), LB_ADDSTRING, 0, 0);	
 	if ((fp = fopen(FILE_MUSIC_TMP_FILE, "r")) == NULL) {
 		MessageBox(hWnd, FILE_FILE_ERROR, "", MB_OK | MB_ICONINFORMATION);
 		return;
@@ -29,6 +30,7 @@ static void fill_box(HWND hWnd)
         DEB("--fread ok size=%d\n",size);
         
 	for (i = 0; i < size; i++) {
+		DEB("-name=%s\n ",list[i].name);	
 		SendMessage(GetDlgItem(hWnd, IDC_FUN_MPLAYER_LISTBOX_NAME), LB_ADDSTRING, i, (LPARAM)list[i].name);
 //		SendMessage(GetDlgItem(hWnd, IDC_FUN_MPLAYER_LISTBOX_SINGER), LB_ADDSTRING, i, (LPARAM)list[i].name);	
 	}
@@ -131,13 +133,7 @@ int MusicPlay(hWnd)
 	static FILE      *fp;
 	int              size;
 	struct musiclist list[MAX_FILE_LIST];
-//	char             path[50];
-//	char             temp[20];
 	static char      *pname;
-#if 0	
-	char             name[40]     = {0};
-	char             name1[40]    = {0};
-#endif	
 	char             command[100] = {0};
 	
         DEB("-MusicPlay \n ");	
@@ -183,32 +179,7 @@ int MusicPlay(hWnd)
 	strcpy(command, FILE_MPLAYER_AP);
         DEB("--command=%s\n ",command);
 
-	//strcpy(name1, FILE_MPLAYER_DIR);
-        //DEB("--dir=%s\n ",name1);
-        	
-        //DEB("--pname=%s\n ",pname);
-        	
-        	
-        	
-#if 0        	
-	if (strcmp(pname, "mp3") == 0) {
-                DEB("--<mp3>\n");
-		strcat(name1, name);
-		strcat(name1, ".mp3");
-		strcat(command, name1);
-		strcat(command, " &");
-                DEB("---command=%s\n ",command);		
-		system(command);
-	} else if (strcmp(pname, "wma") == 0)	    {
-                DEB("--<wma>\n");	
-		strcat(name1, name);
-		strcat(name1, ".wma");
-		strcat(command, name1);
-		strcat(command, " &");
-                DEB("---command=%s\n ",command);		
-		system(command);		
-	}
-#else
+        
 /*
 #mplayer -fps 30 -vf rotate=2 tv:// -tv driver=v4l2:width=320:height=240:device=/dev/video0
 #mplayer MPEG4.mp4 -vo soclefb -ao alsa -vfm ffmpeg -quiet -loop 0
@@ -284,7 +255,6 @@ mplayer -af volume=1000.1:0 media.avi
 		//system(command);		
 		SYS_SERV_CALL(command);
 #endif 	
-#endif 
         	
         DEB("-MusicPlay End \n ");
 }
@@ -296,7 +266,6 @@ extern int loadbk(HWND hWnd);
 
 static int Desktop(HWND hWnd, int message, WPARAM wParam, LPARAM lParam)
 {
- //       DEB("-Desktop -message=%d wParam=%d lParam=%d\n ",message,wParam,lParam);
 	static int mpalyer_flag = 0;
 	static int reload_flag = 0;
 
@@ -411,8 +380,9 @@ msg_recreate:
 		DEB("---IDC_FUN_MPLAYER_BUTTON_ADD\n ");		
 			musicadd(hWnd);
 			loadbk(hWnd);
-			//SetNotificationCallback(GetDlgItem(hWnd, IDC_FUN_MPLAYER_LISTBOX_NAME), Music_List_And);//0310
-			fill_box(hWnd);			
+			//re-draw
+			SetNotificationCallback(GetDlgItem(hWnd, IDC_FUN_MPLAYER_LISTBOX_NAME), Music_List_And);//0310
+			fill_box(hWnd);		
 			//goto msg_recreate;
 			break;
 

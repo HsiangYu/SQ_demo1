@@ -85,7 +85,7 @@
 #define MSG_RESOURCE_MANAGE             "Resource Manage"
 
 #define MSG_PDA                         "PDA"
-#define MSG_SQ_PDA                      "SQ PDA v0.1 build 20100310-1201"
+#define MSG_SQ_PDA                      "SQ PDA v0.1 build 20100310-1203"
 #define MSG_TOOL                        "TOOL"
 #define MSG_HELLO                       "Hello World"
 #define MSG_OPEN                        "Open"

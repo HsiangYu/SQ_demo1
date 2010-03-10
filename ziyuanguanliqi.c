@@ -151,42 +151,7 @@ static void DeleteFile(HWND hDlg)
 	}
 }
 
-/*
-static void View(HWND hDlg)
-{
-	int  i;
-	char file [MAX_NAME + 1];
-	char filet[MAX_NAME + 1];
-	char files [1024] = MSG_DEL_FILE;
-	char str1[50];
-	int  status;
 
-	for (i = 0; i < SendDlgItemMessage(hDlg, IDC_XZ_FILE, LB_GETCOUNT, 0, 0L); i++) {
-
-		status = SendDlgItemMessage(hDlg, IDC_XZ_FILE, LB_GETCHECKMARK, i, 0);
-		if (status == CMFLAG_CHECKED) {
-			SendDlgItemMessage(hDlg, IDC_XZ_FILE, LB_GETTEXT, i, (LPARAM)file);
-			strcat(files, file);
-			strcat(filet, file);
-			strcat(filet, " ");
-			strcat(files, "\n");
-		}
-	}
-	if (IDOK == MessageBox(hDlg, files, "OK", MB_OK | MB_ICONINFORMATION)) {
-		for (i = 0; i < SendDlgItemMessage(hDlg, IDC_XZ_FILE, LB_GETCOUNT, 0, 0L); i++) {
-			status = SendDlgItemMessage(hDlg, IDC_XZ_FILE, LB_GETCHECKMARK, i, 0);
-			if (status == CMFLAG_CHECKED) {
-				SendMessage(GetDlgItem(hDlg, IDC_XZ_FILE), LB_DELETESTRING, i, 0);
-				i = 0;
-			}
-
-		}
-		sprintf(str1, "rm -rf /mnt/sd/demo/%s", filet);
-		printf("s =%s", filet);
-		system(str1);
-	}
-}
-*/
 /*******************************************************************************
 * File Name: ziyuanguanliqi.c
 * Copy Right: GaoHaibo
